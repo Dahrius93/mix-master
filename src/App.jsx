@@ -9,6 +9,8 @@ import {
   Newsletter,
 } from "./pages";
 
+import { loader as landingLoader } from "./pages/Landing";
+
 // URL: /about
 
 // ┌─────────────────────────┐
@@ -34,6 +36,7 @@ const router = createBrowserRouter([
         //path: "/landing",
         index: true, // ← questa è la route di default, corrisponde a "/"
         element: <Landing />,
+        loader: landingLoader, // ← questa è la funzione che viene eseguita prima di renderizzare il componente, i dati restituiti vengono passati al componente tramite useLoaderData
       },
       {
         path: "/cocktail",
