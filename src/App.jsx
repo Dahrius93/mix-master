@@ -9,39 +9,49 @@ import {
   Newsletter,
 } from "./pages";
 
-// router example
-//
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <h2>home page</h2>,
-//   },
-// ]);
+// URL: /about
+
+// ┌─────────────────────────┐
+// │  HomeLayout (path: "/") │
+// │  ┌───────────────────┐  │
+// │  │  <nav>navbar</nav>│  │
+// │  └───────────────────┘  │
+// │  ┌───────────────────┐  │
+// │  │    <Outlet />     │  │
+// │  │  ┌─────────────┐  │  │
+// │  │  │   <About /> │  │  │
+// │  │  └─────────────┘  │  │
+// │  └───────────────────┘  │
+// └─────────────────────────┘
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout />,
+    children: [
+      {
+        //path: "/landing",
+        index: true, // ← questa è la route di default, corrisponde a "/"
+        element: <Landing />,
+      },
+      {
+        path: "/cocktail",
+        element: <Cocktail />,
+      },
+      {
+        path: "/newsletter",
+        element: <Newsletter />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+    ],
   },
-  {
-    path: "/about",
-    element: <About />,
-  },
-  {
-    path: "/cocktail",
-    element: <Cocktail />,
-  },
+
   {
     path: "/error",
     element: <Error />,
-  },
-  {
-    path: "/landing",
-    element: <Landing />,
-  },
-  {
-    path: "/newsletter",
-    element: <Newsletter />,
   },
 ]);
 
