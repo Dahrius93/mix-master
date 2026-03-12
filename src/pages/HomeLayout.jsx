@@ -23,7 +23,9 @@ const HomeLayout = () => {
   return (
     <>
       <Navbar /> {/* ← sempre presente */}
-      <Outlet /> {/* ← cambia in base alla route */}
+      <section classname="page">
+        <Outlet /> {/* ← cambia in base alla route */}
+      </section>
     </>
   );
 };
