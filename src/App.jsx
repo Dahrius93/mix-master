@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import {
   About,
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout />,
-    error: <Error />,
+    errorElement: <Error />,
     children: [
       {
         //path: "/landing",
@@ -60,6 +60,6 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <router.Provider router={router} />;
+  return <RouterProvider router={router} />;
 };
 export default App;
