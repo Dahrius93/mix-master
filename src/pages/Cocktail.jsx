@@ -27,6 +27,14 @@ const Cocktail = () => {
     strInstructions: instructions,
   } = singleDrink; // destrutturiamo l'oggetto singleDrink per ottenere le proprietà che ci interessano, e le rinominiamo per renderle più comprensibili
 
+  const ingredients = [];
+  for (let i = 1; i <= 15; i++) {
+    const ingredient = singleDrink[`strIngredient${i}`];
+    if (ingredient) {
+      ingredients.push(ingredient);
+    }
+  }
+
   return (
     <Wrapper>
       <header>
@@ -49,6 +57,12 @@ const Cocktail = () => {
           <p>
             <span className="drink-data">glass :</span>
             {glass}
+          </p>
+          <p>
+            <span className="drink-data">ingredients :</span>
+            {ingredients.map((item, index) => {
+              return <span key={index}>{item}</span>;
+            })}
           </p>
           <p>
             <span className="drink-data">instructions :</span>
