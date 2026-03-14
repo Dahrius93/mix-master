@@ -1,5 +1,5 @@
 //import { Link } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 // HomeLayout è il componente padre che mostra gli altri elementi
@@ -20,11 +20,18 @@ import Navbar from "../components/Navbar";
 // └─────────────────────────┘
 
 const HomeLayout = () => {
+  const navigation = useNavigation(); // useNavigation è un hook che restituisce un oggetto con informazioni sulla navigazione, in questo caso lo usiamo per mostrare un loading spinner quando la navigazione è in corso
+  const isPageLoading = navigation.state === "loading";
+  const value = "some value"; // esempio di valore da passare ai componenti figli tramite context
   return (
     <>
       <Navbar /> {/* ← sempre presente */}
       <section className="page">
-        <Outlet /> {/* ← cambia in base alla route */}
+        {isPageLoading ? (
+          <div className="loading" />
+        ) : (
+          <Outlet context={{ value }} />
+        )}
       </section>
     </>
   );

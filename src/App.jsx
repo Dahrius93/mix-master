@@ -7,9 +7,11 @@ import {
   HomeLayout,
   Landing,
   Newsletter,
+  SinglePageError,
 } from "./pages";
 
 import { loader as landingLoader } from "./pages/Landing";
+import { loader as singleCocktailLoader } from "./pages/Cocktail";
 
 // URL: /about
 
@@ -36,10 +38,13 @@ const router = createBrowserRouter([
         //path: "/landing",
         index: true, // ← questa è la route di default, corrisponde a "/"
         element: <Landing />,
+        errorElement: <SinglePageError />,
         loader: landingLoader, // ← questa è la funzione che viene eseguita prima di renderizzare il componente, i dati restituiti vengono passati al componente tramite useLoaderData
       },
       {
-        path: "/cocktail",
+        path: "/cocktail/:id", // :id è un parametro dinamico, corrisponde a qualsiasi valore dopo "/cocktail/"
+        errorElement: <SinglePageError />,
+        loader: singleCocktailLoader,
         element: <Cocktail />,
       },
       {
