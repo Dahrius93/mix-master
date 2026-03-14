@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import Wrapper from "../assets/wrappers/CocktailPage";
 const singleCocktailUrl =
@@ -7,9 +7,16 @@ const singleCocktailUrl =
 export const loader = async ({ params }) => {
   const { id } = params;
   const { data } = await axios.get(`${singleCocktailUrl}${id}`);
-  if (!data.drinks) {
-    throw new Error("No cocktail found");
-  }
+
+  // if (!data) {
+  //   throw new Error("No cocktail found");
+  // oppure----->
+  // if (!data) return <h2>something went wrong...</h2>
+  // }
+  // oppure----->
+  // if (!data) return <Navigate to="/" />; pert tornare alla home
+  // comunque errore mostrato su singlePageError.jsx
+
   return { id, data }; // ritorna un oggetto con la proprietà cocktail, che contiene i dati del cocktail restituiti dall'API
 };
 
@@ -27,13 +34,19 @@ const Cocktail = () => {
     strInstructions: instructions,
   } = singleDrink; // destrutturiamo l'oggetto singleDrink per ottenere le proprietà che ci interessano, e le rinominiamo per renderle più comprensibili
 
-  const ingredients = [];
-  for (let i = 1; i <= 15; i++) {
-    const ingredient = singleDrink[`strIngredient${i}`];
-    if (ingredient) {
-      ingredients.push(ingredient);
-    }
-  }
+  // const ingredients = [];
+  // for (let i = 1; i <= 15; i++) {
+  //   const ingredient = singleDrink[`strIngredient${i}`];
+  //   if (ingredient) {
+  //     ingredients.push(ingredient);
+  //   }
+  // }
+
+  const validIngredients = Object.keys(singleDrink)
+    .filter(
+      (key) => key.startsWith("strIngredient") && singleDrink[key] !== null,
+    )
+    .map((key) => singleDrink[key]);
 
   return (
     <Wrapper>
@@ -60,8 +73,13 @@ const Cocktail = () => {
           </p>
           <p>
             <span className="drink-data">ingredients :</span>
-            {ingredients.map((item, index) => {
-              return <span key={index}>{item}</span>;
+            {validIngredients.map((item, index) => {
+              return (
+                <span className="ing" key={index}>
+                  {item}
+                  {index < validIngredients.length - 1 ? ", " : ""}
+                </span>
+              );
             })}
           </p>
           <p>
