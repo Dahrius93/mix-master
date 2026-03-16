@@ -14,8 +14,7 @@ import { loader as landingLoader } from "./pages/Landing";
 import { loader as singleCocktailLoader } from "./pages/Cocktail";
 import { action as newsletterAction } from "./pages/Newsletter";
 
-// URL: /about
-
+// general page layout
 // ┌─────────────────────────┐
 // │  HomeLayout (path: "/") │
 // │  ┌───────────────────┐  │
