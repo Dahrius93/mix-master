@@ -1,6 +1,29 @@
+import { Form, redirect, useNavigation } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const newsletterUrl = "https://www.course-api.com/cocktails-newsletter";
+
+export const action = async ({ request }) => {
+  const formData = await request.formData(); // oggetto FormData (coppie chiave/valore)
+  const data = Object.fromEntries(formData); // converto in oggetto
+  // const { name, lastName, email } = data; // desctructuring
+
+  try {
+    const response = await axios.post(newsletterUrl, data);
+    toast.success(response.data.msg);
+    return redirect("/"); // reindirizza alla home page dopo l'invio del form
+  } catch (error) {
+    toast.error(error?.response?.data?.msg);
+    return error;
+  }
+};
+
 const Newsletter = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   return (
-    <form className="form">
+    <Form className="form" method="POST">
       <h4 style={{ textAlign: "center", marginBottom: "2rem" }}>
         our newsletter
       </h4>
@@ -11,9 +34,10 @@ const Newsletter = () => {
         </label>
         <input
           type="text"
+          name="name"
           id="name"
+          required // campo obbligatorio per inviare il form
           className="form-input"
-          defaultValue="john"
         />
       </div>
       {/* lastName */}
@@ -26,7 +50,7 @@ const Newsletter = () => {
           name="lastName"
           id="lastName"
           className="form-input"
-          defaultValue="smith"
+          required
         />
       </div>
       {/* email */}
@@ -39,17 +63,19 @@ const Newsletter = () => {
           name="email"
           id="email"
           className="form-input"
-          defaultValue="john@example.com"
+          defaultValue="test@test.com"
+          required
         />
       </div>
       <button
         type="submit"
         className="btn btn-block"
         style={{ marginTop: "2rem" }}
+        disabled={isSubmitting}
       >
-        Subscribe
+        {isSubmitting ? "Submitting" : "Submit"}
       </button>
-    </form>
+    </Form>
   );
 };
 

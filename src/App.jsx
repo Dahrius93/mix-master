@@ -12,6 +12,7 @@ import {
 
 import { loader as landingLoader } from "./pages/Landing";
 import { loader as singleCocktailLoader } from "./pages/Cocktail";
+import { action as newsletterAction } from "./pages/Newsletter";
 
 // URL: /about
 
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
       {
         path: "/newsletter",
         element: <Newsletter />,
+        action: newsletterAction, // ← questa è la funzione che viene eseguita quando viene inviato un form con method="POST" all'interno del componente Newsletter, i dati restituiti vengono passati al componente tramite useActionData
       },
       {
         path: "/about",
