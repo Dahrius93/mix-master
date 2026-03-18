@@ -31,7 +31,10 @@ import { action as newsletterAction } from "./pages/Newsletter";
 // └─────────────────────────┘
 
 const queryClient = new QueryClient({
-  // questa è la configurazione di default per tutte le query, in questo caso tutte le query saranno considerate "fresche" per 5 minuti, quindi non verranno refetchate automaticamente se vengono richiamate entro 5 minuti dall'ultima volta che sono state fetchate
+  // questa è la configurazione di default per tutte le query,
+  // in questo caso tutte le query saranno considerate "fresche" per 5 minuti,
+  // quindi non verranno refetchate automaticamente se vengono richiamate
+  // entro 5 minuti dall'ultima volta che sono state fetchate
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5,
@@ -50,7 +53,7 @@ const router = createBrowserRouter([
         index: true, // ← questa è la route di default, corrisponde a "/"
         element: <Landing />,
         errorElement: <SinglePageError />,
-        loader: landingLoader, // ← questa è la funzione che viene eseguita prima di renderizzare il componente, i dati restituiti vengono passati al componente tramite useLoaderData
+        loader: landingLoader(queryClient), // ← questa è la funzione che viene eseguita prima di renderizzare il componente, i dati restituiti vengono passati al componente tramite useLoaderData
       },
       {
         path: "/cocktail/:id", // :id è un parametro dinamico, corrisponde a qualsiasi valore dopo "/cocktail/"

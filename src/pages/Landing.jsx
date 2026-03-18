@@ -20,24 +20,20 @@ const searchCocktailsQuery = (searchTerm) => {
 
 // eseguito prima di renderizzare il componente
 // ma anche al cambio URL come submit form
-export const loader = async ({ request }) => {
-  const url = new URL(request.url);
-  const searchTerm = url.searchParams.get("search") || "a";
-  // const response = await axios.get(`${cocktailSearchUrl}${searchTerm}`); // lo commento perchè utilizzerò useQuery
-  //return { drinks: response.data.drinks, searchTerm }; // ritornare sempre qualcosa per evitare undefined
-  return { searchTerm }; // ritorno solo searchTerm perchè i dati li gestirò con useQuery all'interno del componente, in questo modo la query sarà refetchata automaticamente al cambio URL senza dover rifare tutta la logica di fetch nella funzione loader
-};
+export const loader =
+  (queryClient) =>
+  async ({ request }) => {
+    const url = new URL(request.url);
+
+    const searchTerm = url.searchParams.get("search") || "all";
+    await queryClient.ensureQueryData(searchCocktailsQuery(searchTerm)); // con ensure prendo i dati in cache altrimenti li scarico
+    return { searchTerm };
+  };
 
 const Landing = () => {
   const { searchTerm } = useLoaderData();
-  const { data: drinks, isLoading } = useQuery(
-    searchCocktailsQuery(searchTerm),
-  );
-  if (isLoading) {
-    return <h4 style={{ textAlign: "center" }}>Loading...</h4>;
-  }
+  const { data: drinks } = useQuery(searchCocktailsQuery(searchTerm));
 
-  // const data = useLoaderData(); ritorna un oggetto con tutte le proprietà restituite dalla funzione loader, in questo caso { drinks, searchTerm }
   return (
     <>
       <SearchForm searchTerm={searchTerm} />
