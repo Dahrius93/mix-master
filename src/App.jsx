@@ -58,8 +58,8 @@ const router = createBrowserRouter([
       {
         path: "/cocktail/:id", // :id è un parametro dinamico, corrisponde a qualsiasi valore dopo "/cocktail/"
         errorElement: <SinglePageError />,
-        loader: singleCocktailLoader,
         element: <Cocktail />,
+        loader: singleCocktailLoader(queryClient),
       },
       {
         path: "/newsletter",
